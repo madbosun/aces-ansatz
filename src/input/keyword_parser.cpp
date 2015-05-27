@@ -48,8 +48,8 @@ namespace input {
         std::regex redundant_comma(",\\s*,");
         // strip end of string comma
         std::regex endofline_comma(",$");
-        // match *...( or )
-        std::regex kw("((\\*.*\\()|(\\s)|(\\)))");
+        // match *...{ or }
+        std::regex kw("((\\*.*\\{)|(\\s)|(\\}))");
         
         std::cout << std::endl << "Echo of the first few input file lines:" << std::endl;
         // offset by 1 for header
@@ -95,21 +95,21 @@ namespace input {
             if(isline.empty()){
                 input::dump_file_string(icount," ");
                 
-                // find the first ( string element post coordinates and use that to start the keyword section
-            } else if (tmp.find("(") != std::string::npos ) {
+                // find the first { string element post coordinates and use that to start the keyword section
+            } else if (tmp.find("{") != std::string::npos ) {
                 iskeywords = 1;
-                input::dump_file_string(icount,"*Aces(");
+                input::dump_file_string(icount,"*Aces{");
             }
             
-            // this part will parse the keyword section between a ( and ) section in the input file
+            // this part will parse the keyword section between a { and } section in the input file
             if(iskeywords && !tmp.empty()) {
                 std::string tmp2;
                 tmp2 = std::regex_replace(tmp,kw,"");
                 
-                // since we regex strip ), for input file dumping we print it back out
-                if (tmp.find(")") != std::string::npos ) {
+                // since we regex strip }, for input file dumping we print it back out
+                if (tmp.find("}") != std::string::npos ) {
                     iskeywords = 0;
-                    input::dump_file_string(icount,")");
+                    input::dump_file_string(icount,"}");
                 }
                 
                 if(!tmp2.empty()) {

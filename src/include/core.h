@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Jason Byrd. All rights reserved.
 //
 
+#include <string>
+
 #ifndef aces_ansatz_core_h
 #define aces_ansatz_core_h
 
@@ -32,7 +34,7 @@ namespace aces {
         static int starting_atom_count;
     };
     
-    extern char *aces_verno;
+    extern std::string aces_verno;
 
 }
 #endif

@@ -7,10 +7,11 @@
 //
 
 #include "core.h"
+#include <string>
 
 namespace aces{
     
-    char *aces_verno = "DEBUG";
+    std::string aces_verno = "DEBUG";
     
     int GlobalSettings::max_col = 0;
     int GlobalSettings::max_dump_length = 0;

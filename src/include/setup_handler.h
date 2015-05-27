@@ -14,7 +14,7 @@
 
 namespace aces {
     
-    void Molecule_Setup(aces::aces_input_data);
+    void Molecule_Setup(aces::aces_input_data,std::string basis_string);
     
 }
 

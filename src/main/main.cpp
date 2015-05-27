@@ -32,6 +32,14 @@ void bt_sighandler(int signum) {
     all_abort();
 }
 
+void help_print() {
+    std::cerr << "Usage : acesansatz -f <input_file> -b <basis_file> -m <max_memory_in_gigabytes>" << std::endl;
+    std::cerr << "\tDefaults: data file - \"data.dat\", sialx directory - \".\", Memory : 2GB" << std::endl;
+    std::cerr << "\tm is the approximate memory to use. Actual usage will be more." << std::endl;
+    std::cerr << "\t-? or -h to display this usage dialogue" << std::endl;
+    return;
+}
+
 int main(int argc, char * argv[]) {
     
     signal(SIGSEGV, bt_sighandler);
@@ -49,11 +57,11 @@ int main(int argc, char * argv[]) {
     << "Jason N. Byrd" << std::endl << std::endl << std::endl;
 
     // default input file
-    char *input_file = "ZMAT";
+    std::string input_file = "ZMAT";
     // default basis file is ACESII format
-    char *basis_file = "GENBAS";
+    std::string basis_file = "GENBAS";
     // default output binary file
-    char *output_file = "data.dat";
+    std::string output_file = "data.dat";
     // 500 mb default
     std::size_t memory = 536870912;
     
@@ -88,10 +96,7 @@ int main(int argc, char * argv[]) {
                 break;
             case 'h':case '?':
             default:
-                std::cerr << "Usage : "<< argv[0] <<" -f <input_file> -b <basis_file> -m <max_memory_in_gigabytes>" << std::endl;
-                std::cerr << "\tDefaults: data file - \"data.dat\", sialx directory - \".\", Memory : 2GB" << std::endl;
-                std::cerr << "\tm is the approximate memory to use. Actual usage will be more." << std::endl;
-                std::cerr << "\t-? or -h to display this usage dialogue" << std::endl;
+                help_print();
                 return 1;
         }
     }
@@ -100,11 +105,11 @@ int main(int argc, char * argv[]) {
     
 
     std::string input_string(input_file);
-    std::cout << "Initializing input file from " << input_string << std::endl;
+    std::cout << "Opening input file from " << input_string << std::endl;
     setup::ReadFileExists(input_string);
     
     std::string basis_string(basis_file);
-    std::cout << "Initializing basis file from " << basis_string << std::endl;
+    std::cout << "Opening basis file from " << basis_string << std::endl;
     setup::ReadFileExists(basis_string);
     
     std::string output_string(output_file);
@@ -117,8 +122,16 @@ int main(int argc, char * argv[]) {
 
     aces::aces_input_data InputData;
     InputData = input::reader(input_string, output_string);
+/*
+At this point we have read:
+     coordinates
+     any fragment definitions
+     special basis
+     and keywords
+*/
     
-    aces::Molecule_Setup(InputData);
+    aces::Molecule_Setup(InputData,basis_string);
     
     return 0;
 }
+
